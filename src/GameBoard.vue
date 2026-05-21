@@ -20,9 +20,13 @@ function onKeydown(e: KeyboardEvent) {
     D: 'right',
   }
 
-  if (e.key === ' ' && game.isGameOver) {
+  if (e.key === ' ') {
     e.preventDefault()
-    game.resetGame()
+    if (game.isGameOver) {
+      game.resetGame()
+    } else {
+      game.togglePause()
+    }
     return
   }
 
@@ -69,6 +73,15 @@ onUnmounted(() => {
           }"
         />
         <div
+          v-for="(monster, index) in game.monsters"
+          :key="`monster-${index}`"
+          class="monster"
+          :style="{
+            gridRow: monster.y + 1,
+            gridColumn: monster.x + 1,
+          }"
+        />
+        <div
           class="food"
           :style="{
             gridRow: game.food.y + 1,
@@ -77,14 +90,52 @@ onUnmounted(() => {
         />
       </div>
 
-      <div v-if="game.isGameOver" class="game-over-overlay">
-        <div class="game-over-box">
-          <h2>遊戲結束</h2>
+      <div v-if="game.isPaused" class="overlay">
+        <div class="overlay-box">
+          <h2 class="pause-title">暫停</h2>
+          <p class="overlay-hint">按空白鍵繼續</p>
+        </div>
+      </div>
+
+      <div v-if="game.isGameOver" class="overlay">
+        <div class="overlay-box">
+          <h2 class="gameover-title">遊戲結束</h2>
           <p class="final-score">分數：{{ game.score }}</p>
-          <p class="restart-hint">按空白鍵重新開始</p>
+          <p class="overlay-hint">按空白鍵重新開始</p>
         </div>
       </div>
     </div>
+
+    <aside class="rules-panel">
+      <h2>遊戲規則</h2>
+
+      <h3>🎮 操作</h3>
+      <ul>
+        <li>方向鍵 / WASD 控制方向</li>
+        <li>空白鍵 暫停／繼續</li>
+      </ul>
+
+      <h3>🐍 蛇</h3>
+      <ul>
+        <li>自動前進，可穿越自己身體</li>
+        <li>吃食物變長但不加分</li>
+      </ul>
+
+      <h3>👾 怪物（紫色）</h3>
+      <ul>
+        <li>隨機移動</li>
+        <li>蛇頭碰到怪物 → 死亡</li>
+        <li>怪物碰到食物 → 食物重生</li>
+        <li>吃食物增加怪物（最多 10 隻）</li>
+        <li><strong>怪物被蛇圍困消失 → 得分</strong></li>
+      </ul>
+
+      <h3>💀 結束條件</h3>
+      <ul>
+        <li>撞牆 → 死亡</li>
+        <li>蛇頭碰到怪物 → 死亡</li>
+      </ul>
+    </aside>
   </div>
 </template>
 
@@ -95,6 +146,60 @@ onUnmounted(() => {
   align-items: center;
   padding: 20px;
   font-family: 'Segoe UI', sans-serif;
+}
+
+.rules-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 25%;
+  height: 95%;
+  overflow-y: auto;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  font-size: 13px;
+  line-height: 2;
+  color: #333;
+}
+
+.rules-panel h2 {
+  margin: 0 0 12px;
+  font-size: 18px;
+  color: #1a1a2e;
+}
+
+.rules-panel h3 {
+  margin: 12px 0 4px;
+  font-size: 14px;
+  color: #555;
+}
+
+.rules-panel ul {
+  margin: 0;
+  padding-left: 16px;
+}
+
+.rules-panel li {
+  margin-bottom: 2px;
+}
+
+@media (min-width: 1001px) {
+  .rules-panel {
+    position: fixed;
+    left: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+@media (max-width: 1000px) {
+  .rules-panel {
+    margin-top: 16px;
+    width: 100%;
+    max-width: 400px;
+  }
 }
 
 .game-header {
@@ -143,6 +248,13 @@ onUnmounted(() => {
 
 .snake-head {
   background-color: #004d00;
+  z-index: 2;
+}
+
+.monster {
+  background-color: #9b59b6;
+  border-radius: 2px;
+  z-index: 1;
 }
 
 .food {
@@ -151,7 +263,7 @@ onUnmounted(() => {
   z-index: 1;
 }
 
-.game-over-overlay {
+.overlay {
   position: absolute;
   inset: 0;
   background-color: rgba(0, 0, 0, 0.7);
@@ -161,7 +273,7 @@ onUnmounted(() => {
   z-index: 10;
 }
 
-.game-over-box {
+.overlay-box {
   background-color: #fff;
   border-radius: 12px;
   padding: 32px 48px;
@@ -169,7 +281,13 @@ onUnmounted(() => {
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
 }
 
-.game-over-box h2 {
+.pause-title {
+  margin: 0 0 12px;
+  font-size: 28px;
+  color: #333;
+}
+
+.gameover-title {
   margin: 0 0 12px;
   font-size: 28px;
   color: #c0392b;
@@ -181,7 +299,7 @@ onUnmounted(() => {
   color: #333;
 }
 
-.restart-hint {
+.overlay-hint {
   margin: 0;
   font-size: 14px;
   color: #888;
