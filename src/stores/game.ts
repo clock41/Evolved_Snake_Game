@@ -107,7 +107,8 @@ export const useGameStore = defineStore('game', () => {
   const direction = ref<Direction>('right')
   const isPlaying = ref(false)
   const isGameOver = ref(false)
-  const isPaused = ref(false)
+  const isPaused = ref(true)
+  const hasStarted = ref(false)
   const nextDirection = ref<Direction | null>(null)
   const monsters = ref<{ x: number; y: number }[]>([])
 
@@ -293,25 +294,19 @@ export const useGameStore = defineStore('game', () => {
   function togglePause() {
     if (isGameOver.value) return
     isPaused.value = !isPaused.value
+    hasStarted.value = true
 
     if (isPaused.value) {
-      if (snakeIntervalId) {
-        clearInterval(snakeIntervalId)
-        snakeIntervalId = null
-      }
-      if (monsterIntervalId) {
-        clearInterval(monsterIntervalId)
-        monsterIntervalId = null
-      }
+      stopMoving()
     } else {
-      snakeIntervalId = setInterval(move, 200)
-      monsterIntervalId = setInterval(moveMonsters, MONSTER_SPEED)
+      startMoving()
     }
   }
 
   function resetGame() {
     stopMoving()
-    isPaused.value = false
+    isPaused.value = true
+    hasStarted.value = false
     snake.value = initialSnake()
     direction.value = 'right'
     nextDirection.value = null
@@ -319,7 +314,6 @@ export const useGameStore = defineStore('game', () => {
     score.value = 0
     isGameOver.value = false
     initMonsters()
-    startMoving()
   }
 
   initMonsters()
@@ -332,6 +326,7 @@ export const useGameStore = defineStore('game', () => {
     isPlaying,
     isGameOver,
     isPaused,
+    hasStarted,
     monsters,
     changeDirection,
     startMoving,

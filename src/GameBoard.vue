@@ -39,7 +39,6 @@ function onKeydown(e: KeyboardEvent) {
 
 onMounted(() => {
   window.addEventListener('keydown', onKeydown)
-  game.startMoving()
 })
 
 onUnmounted(() => {
@@ -92,8 +91,12 @@ onUnmounted(() => {
 
       <div v-if="game.isPaused" class="overlay">
         <div class="overlay-box">
-          <h2 class="pause-title">暫停</h2>
-          <p class="overlay-hint">按空白鍵繼續</p>
+          <h2 :class="game.hasStarted ? 'pause-title' : 'start-title'">
+            {{ game.hasStarted ? '暫停' : '🐍 貪吃蛇' }}
+          </h2>
+          <p class="overlay-hint">
+            {{ game.hasStarted ? '按空白鍵繼續' : '按空白鍵開始' }}
+          </p>
         </div>
       </div>
 
@@ -112,7 +115,7 @@ onUnmounted(() => {
       <h3>🎮 操作</h3>
       <ul>
         <li>方向鍵 / WASD 控制方向</li>
-        <li>空白鍵 暫停／繼續</li>
+        <li>空白鍵 開始／暫停</li>
       </ul>
 
       <h3>🐍 蛇</h3>
@@ -285,6 +288,12 @@ onUnmounted(() => {
   margin: 0 0 12px;
   font-size: 28px;
   color: #333;
+}
+
+.start-title {
+  margin: 0 0 12px;
+  font-size: 28px;
+  color: #1a1a2e;
 }
 
 .gameover-title {
