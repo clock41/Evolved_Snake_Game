@@ -147,7 +147,7 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
+  padding: 1.25rem;
   font-family: 'Segoe UI', sans-serif;
 }
 
@@ -159,39 +159,39 @@ onUnmounted(() => {
   height: 95%;
   overflow-y: auto;
   background: #fff;
-  border-radius: 12px;
-  padding: 20px;
+  border-radius: 0.75rem;
+  padding: 1.25rem;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-  font-size: 13px;
+  font-size: 0.813rem;
   line-height: 2;
   color: #333;
 }
 
 .rules-panel h2 {
-  margin: 0 0 12px;
-  font-size: 18px;
+  margin: 0 0 0.75rem;
+  font-size: 1.125rem;
   color: #1a1a2e;
 }
 
 .rules-panel h3 {
-  margin: 12px 0 4px;
-  font-size: 14px;
+  margin: 0.75rem 0 0.25rem;
+  font-size: 0.875rem;
   color: #555;
 }
 
 .rules-panel ul {
   margin: 0;
-  padding-left: 16px;
+  padding-left: 1rem;
 }
 
 .rules-panel li {
-  margin-bottom: 2px;
+  margin-bottom: 0.125rem;
 }
 
 @media (min-width: 1001px) {
   .rules-panel {
     position: fixed;
-    left: 24px;
+    left: 1.5rem;
     top: 50%;
     transform: translateY(-50%);
   }
@@ -199,27 +199,27 @@ onUnmounted(() => {
 
 @media (max-width: 1000px) {
   .rules-panel {
-    margin-top: 16px;
+    margin-top: 1rem;
     width: 100%;
-    max-width: 400px;
+    max-width: 25rem;
   }
 }
 
 .game-header {
   display: flex;
   align-items: center;
-  gap: 24px;
-  margin-bottom: 16px;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .game-title {
   margin: 0;
-  font-size: 24px;
+  font-size: 1.5rem;
   color: #333;
 }
 
 .game-score {
-  font-size: 18px;
+  font-size: 1.125rem;
   color: #555;
 }
 
@@ -232,10 +232,10 @@ onUnmounted(() => {
   grid-template-columns: repeat(v-bind(GRID_SIZE), 1fr);
   grid-template-rows: repeat(v-bind(GRID_SIZE), 1fr);
   gap: 1px;
-  width: 400px;
-  height: 400px;
+  width: 25rem;
+  height: 25rem;
   background-color: #1a1a2e;
-  border: 2px solid #333;
+  border: 0.125rem solid #333;
   position: relative;
 }
 
@@ -278,39 +278,39 @@ onUnmounted(() => {
 
 .overlay-box {
   background-color: #fff;
-  border-radius: 12px;
-  padding: 32px 48px;
+  border-radius: 0.75rem;
+  padding: 2rem 3rem;
   text-align: center;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
 }
 
 .pause-title {
-  margin: 0 0 12px;
-  font-size: 28px;
+  margin: 0 0 0.75rem;
+  font-size: 1.75rem;
   color: #333;
 }
 
 .start-title {
-  margin: 0 0 12px;
-  font-size: 28px;
+  margin: 0 0 0.75rem;
+  font-size: 1.75rem;
   color: #1a1a2e;
 }
 
 .gameover-title {
-  margin: 0 0 12px;
-  font-size: 28px;
+  margin: 0 0 0.75rem;
+  font-size: 1.75rem;
   color: #c0392b;
 }
 
 .final-score {
-  margin: 0 0 8px;
-  font-size: 20px;
+  margin: 0 0 0.5rem;
+  font-size: 1.25rem;
   color: #333;
 }
 
 .overlay-hint {
   margin: 0;
-  font-size: 14px;
+  font-size: 0.875rem;
   color: #888;
 }
 </style>
