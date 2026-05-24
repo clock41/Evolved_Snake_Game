@@ -1,73 +1,34 @@
-# Evolved_Snake_Game
+# Evolved Snake
 
-This template should help get you started developing with Vue 3 in Vite.
+## Vercel Link
+[遊戲連結](https://evolved-snake-game.vercel.app/ "https://evolved-snake-game.vercel.app/")
 
-## Recommended IDE Setup
+## Design Concept
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+經典貪吃蛇的核心是「吃食物變長，避開牆壁與自己」——但這套規則幾十年來沒有太多變化。我的進化版改寫了勝利的條件：**得分不再來自吃食物，而是來自策略性地困住敵人。**
 
-## Recommended Browser Setup
+紫色的敵對怪物會以蛇兩倍的速度隨機移動，牠們會搶走食物並讓食物重生。每當蛇吃下一個食物，場上就會多出一隻新的怪物（上限十隻），壓力逐漸疊加。玩家的目標從「追食物」轉變為「用長長的身體佈陣，把怪物圍困在封閉空間裡」——只有當怪物被蛇完全包圍而消失時，玩家才能獲得分數。
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+這項改動徹底改變了判斷方式：你需要預測怪物的隨機路徑、控制蛇身的形狀來關門，而不是單純閃避。蛇可以穿越自己的身體，降低了意外死亡的挫敗感，讓玩家更敢大膽走位、主動佈局。我希望玩家在玩完後感受到的，不是「我又撞到自己了」的懊惱，而是「我剛剛用身體圍住那隻怪物了！」的成就感——這款 Snake 比的不是反應速度，而是空間佈局與圍獵的智慧。
 
-## Type Support for `.vue` Imports in TS
+## How My Version Is Different
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+| 項目 | 原版 Snake | Evolved Snake |
+|------|-----------|---------------|
+| 🎯 **得分方式** | 吃食物加分 | **圍困怪物使其消失才加分**；吃食物僅變長、不給分 |
+| 👾 **敵人** | 無 | 紫色怪物以蛇兩倍速度隨機移動，會搶食物、會繁殖 |
+| 🐍 **自體碰撞** | 撞到自己死亡 | **可穿越自己身體**，降低意外死亡 |
+| 🧠 **核心策略** | 閃避 + 追食物 | **空間佈陣、圍獵怪物**，預測路徑關門 |
+| 📏 **初始長度** | 3 節 | 16 節，利於早期佈局 |
+| ⏸️ **開始方式** | 自動開始 | 按空白鍵開始，可隨時暫停 |
 
-## Customize configuration
+## How To Play
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+- **方向鍵 / WASD** — 控制蛇頭方向
+- **空白鍵** — 開始／暫停
+- 蛇會自動前進，可穿越自己的身體
+- 紫色怪物隨機移動，速度比蛇快一倍
+- 蛇頭碰到怪物 → 遊戲結束
+- 吃食物會變長，並增加一隻怪物（最多 10 隻）
+- **用蛇身圍住怪物使其消失 → 得分**
 
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Run Unit Tests with [Vitest](https://vitest.dev/)
-
-```sh
-npm run test:unit
-```
-
-### Run End-to-End Tests with [Playwright](https://playwright.dev)
-
-```sh
-# Install browsers for the first run
-npx playwright install
-
-# When testing on CI, must build the project first
-npm run build
-
-# Runs the end-to-end tests
-npm run test:e2e
-# Runs the tests only on Chromium
-npm run test:e2e -- --project=chromium
-# Runs the tests of a specific file
-npm run test:e2e -- tests/example.spec.ts
-# Runs the tests in debug mode
-npm run test:e2e -- --debug
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
