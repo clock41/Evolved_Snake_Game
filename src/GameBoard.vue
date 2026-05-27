@@ -60,6 +60,11 @@ onUnmounted(() => {
     <div class="game-header">
       <h1 class="game-title">🐍 貪吃蛇遊戲</h1>
       <span class="game-score">分數：{{ game.score }}</span>
+      <button
+        v-if="!game.isPaused && !game.isGameOver"
+        class="pause-btn"
+        @click.stop="game.togglePause()"
+      ></button>
     </div>
 
     <div class="board-wrapper" @click="onBoardClick">
@@ -96,12 +101,6 @@ onUnmounted(() => {
           }"
         />
       </div>
-
-      <button
-        v-if="!game.isPaused && !game.isGameOver"
-        class="pause-btn"
-        @click.stop="game.togglePause()"
-      ></button>
 
       <div v-if="game.isPaused" class="overlay">
         <div class="overlay-box">
@@ -342,29 +341,27 @@ onUnmounted(() => {
 
 .pause-btn {
   display: none;
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  z-index: 5;
-  width: 56px;
-  height: 56px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
-  background-color: #666666;
-  border: 4px solid #ffffff;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  background-color: #000000;
+  border: 3px solid #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
+  position: relative;
 }
 
 .pause-btn::before {
   content: "";
-  width: 7px;
-  height: 25px;
+  width: 5px;
+  height: 16px;
   background-color: #ffffff;
-  border-right: 10px double #ffffff;
+  border-right: 18px double #ffffff;
   position: absolute;
-  left: 20px;
+  left: 8px;
 }
 
 @media (hover: none) {
