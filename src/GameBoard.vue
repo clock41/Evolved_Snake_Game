@@ -162,20 +162,20 @@ onUnmounted(() => {
   border-radius: 0.75rem;
   padding: 1.25rem;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-  font-size: 0.813rem;
+  font-size: 0.938rem;
   line-height: 2;
   color: #333;
 }
 
 .rules-panel h2 {
   margin: 0 0 0.75rem;
-  font-size: 1.125rem;
+  font-size: 1.25rem;
   color: #1a1a2e;
 }
 
 .rules-panel h3 {
   margin: 0.75rem 0 0.25rem;
-  font-size: 0.875rem;
+  font-size: 1rem;
   color: #555;
 }
 
