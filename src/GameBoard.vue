@@ -345,7 +345,7 @@ onUnmounted(() => {
   height: 36px;
   border-radius: 50%;
   background-color: #000000;
-  background-image: url(/stop_button_picture.jpg);
+  background-image: url(/stop_button_picture.png);
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
