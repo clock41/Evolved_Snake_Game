@@ -4,6 +4,14 @@ import { useGameStore, GRID_SIZE, type Direction } from './stores/game'
 
 const game = useGameStore()
 
+function onBoardClick() {
+  if (game.isGameOver) {
+    game.resetGame()
+  } else if (game.isPaused) {
+    game.togglePause()
+  }
+}
+
 function onKeydown(e: KeyboardEvent) {
   const keyMap: Record<string, Direction> = {
     ArrowUp: 'up',
@@ -54,7 +62,7 @@ onUnmounted(() => {
       <span class="game-score">分數：{{ game.score }}</span>
     </div>
 
-    <div class="board-wrapper">
+    <div class="board-wrapper" @click="onBoardClick">
       <div class="board">
         <div
           v-for="cellIndex in GRID_SIZE * GRID_SIZE"
@@ -89,13 +97,20 @@ onUnmounted(() => {
         />
       </div>
 
+      <button
+        v-if="!game.isPaused && !game.isGameOver"
+        class="pause-btn"
+        @click.stop="game.togglePause()"
+      >⏸</button>
+
       <div v-if="game.isPaused" class="overlay">
         <div class="overlay-box">
           <h2 :class="game.hasStarted ? 'pause-title' : 'start-title'">
             {{ game.hasStarted ? '暫停' : '🐍 貪吃蛇' }}
           </h2>
           <p class="overlay-hint">
-            {{ game.hasStarted ? '按空白鍵繼續' : '按空白鍵開始' }}
+            <span class="desktop-hint">{{ game.hasStarted ? '按空白鍵繼續' : '按空白鍵開始' }}</span>
+            <span class="touch-hint">{{ game.hasStarted ? '點擊繼續' : '點擊開始' }}</span>
           </p>
         </div>
       </div>
@@ -104,7 +119,10 @@ onUnmounted(() => {
         <div class="overlay-box">
           <h2 class="gameover-title">遊戲結束</h2>
           <p class="final-score">分數：{{ game.score }}</p>
-          <p class="overlay-hint">按空白鍵重新開始</p>
+          <p class="overlay-hint">
+            <span class="desktop-hint">按空白鍵重新開始</span>
+            <span class="touch-hint">點擊重新開始</span>
+          </p>
         </div>
       </div>
     </div>
@@ -115,7 +133,7 @@ onUnmounted(() => {
       <h3>🎮 操作</h3>
       <ul>
         <li>方向鍵 / WASD 控制方向</li>
-        <li>空白鍵 開始／暫停</li>
+        <li><span class="desktop-hint">空白鍵</span><span class="touch-hint">點擊</span> 開始／暫停</li>
       </ul>
 
       <h3>🐍 蛇</h3>
@@ -312,5 +330,45 @@ onUnmounted(() => {
   margin: 0;
   font-size: 0.875rem;
   color: #888;
+}
+
+.desktop-hint {
+  display: inline;
+}
+
+.touch-hint {
+  display: none;
+}
+
+.pause-btn {
+  display: none;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 5;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  border: none;
+  background: rgba(0, 0, 0, 0.4);
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (hover: none) {
+  .desktop-hint {
+    display: none;
+  }
+
+  .touch-hint {
+    display: inline;
+  }
+
+  .pause-btn {
+    display: flex;
+  }
 }
 </style>
