@@ -345,23 +345,16 @@ onUnmounted(() => {
   height: 36px;
   border-radius: 50%;
   background-color: #000000;
+  background-image: url(/stop_button_picture.jpg);
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
   border: 3px solid #ffffff;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  position: relative;
-}
-
-.pause-btn::before {
-  content: "";
-  width: 5px;
-  height: 16px;
-  background-color: #ffffff;
-  border-right: 18px double #ffffff;
-  position: absolute;
-  left: 8px;
 }
 
 @media (hover: none) {
