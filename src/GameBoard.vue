@@ -101,7 +101,7 @@ onUnmounted(() => {
         v-if="!game.isPaused && !game.isGameOver"
         class="pause-btn"
         @click.stop="game.togglePause()"
-      >⏸</button>
+      ></button>
 
       <div v-if="game.isPaused" class="overlay">
         <div class="overlay-box">
@@ -346,16 +346,25 @@ onUnmounted(() => {
   top: 8px;
   right: 8px;
   z-index: 5;
-  width: 40px;
-  height: 40px;
-  border-radius: 8px;
-  border: none;
-  background: rgba(0, 0, 0, 0.4);
-  color: #fff;
-  font-size: 20px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: #666666;
+  border: 4px solid #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   align-items: center;
   justify-content: center;
+}
+
+.pause-btn::before {
+  content: "";
+  width: 7px;
+  height: 25px;
+  background-color: #ffffff;
+  border-right: 10px double #ffffff;
+  position: absolute;
+  left: 20px;
 }
 
 @media (hover: none) {

@@ -1,0 +1,33 @@
+.pause-button {
+  /* 建立外層的灰色圓圈與白邊 */
+  width: 100px;
+  height: 100px;
+  background-color: #666666; /* 灰底 */
+  border: 6px solid #ffffff;  /* 白邊 */
+  border-radius: 50%;         /* 變成正圓形 */
+  
+  /* 置中內部的暫停線條 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  
+  /* 為了畫面美觀加的陰影（可選） */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+}
+
+/* 運用偽元素製作中間的兩條白色直線 */
+.pause-button::before {
+  content: "";
+  width: 12px;                /* 單條線的寬度 */
+  height: 45px;               /* 線的高度 */
+  background-color: #ffffff;  /* 線的顏色（白色） */
+  
+  /* 關鍵：利用雙邊框（double）製造出「空白-直線-空白」的效果 */
+  /* 這會在原本的白線右側，隔開一段距離再畫一條一模一樣的白線 */
+  border-right: 18px double #ffffff; 
+  
+  /* 微調位置，讓兩條線在圓圈正中央 */
+  position: absolute;
+  left: 35px; 
+}
