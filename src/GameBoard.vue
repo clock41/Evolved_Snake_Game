@@ -351,8 +351,8 @@ onUnmounted(() => {
   display: none;
   grid-template-areas:
     ".    up    ."
-    "left .     right"
-    ".    down  .";
+    "left  down  right"
+    ".    .     .";
   grid-template-columns: repeat(3, 4rem);
   grid-template-rows: repeat(3, 4rem);
   gap: 0.25rem;

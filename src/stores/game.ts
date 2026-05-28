@@ -97,7 +97,12 @@ function isFreeCell(
 
 export const useGameStore = defineStore('game', () => {
   function initialSnake(): { x: number; y: number }[] {
-    return Array.from({ length: 16 }, (_, i) => ({ x: 15 - i, y: 10 }))
+    const segs: { x: number; y: number }[] = []
+    for (let i = 0; i < 16; i++) {
+      const x = 9 - i
+      segs.push(x >= 0 ? { x, y: 10 } : { x: i - 10, y: 11 })
+    }
+    return segs
   }
 
   const snake = ref(initialSnake())
@@ -123,6 +128,18 @@ export const useGameStore = defineStore('game', () => {
   }
 
   function spawnMonster(): { x: number; y: number } | null {
+    const head = snake.value[0]
+    if (!head) return null
+    const dirDelta: Record<Direction, [number, number]> = {
+      up: [0, -1],
+      down: [0, 1],
+      left: [-1, 0],
+      right: [1, 0],
+    }
+    const [fdx, fdy] = dirDelta[direction.value]
+    const frontX = head.x + fdx
+    const frontY = head.y + fdy
+
     let pos: { x: number; y: number } | null = null
     for (let attempt = 0; attempt < 100; attempt++) {
       const candidate = {
@@ -132,7 +149,8 @@ export const useGameStore = defineStore('game', () => {
       if (
         !snake.value.some((s) => s.x === candidate.x && s.y === candidate.y) &&
         !monsters.value.some((m) => m.x === candidate.x && m.y === candidate.y) &&
-        !(candidate.x === food.value.x && candidate.y === food.value.y)
+        !(candidate.x === food.value.x && candidate.y === food.value.y) &&
+        !(candidate.x === frontX && candidate.y === frontY)
       ) {
         pos = candidate
         break
