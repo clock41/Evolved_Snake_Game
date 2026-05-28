@@ -135,6 +135,13 @@ onUnmounted(() => {
       </div>
     </div>
 
+    <div class="dpad">
+      <button class="dpad-btn up" @click="game.changeDirection('up')">▲</button>
+      <button class="dpad-btn left" @click="game.changeDirection('left')">◀</button>
+      <button class="dpad-btn right" @click="game.changeDirection('right')">▶</button>
+      <button class="dpad-btn down" @click="game.changeDirection('down')">▼</button>
+    </div>
+
     <aside class="rules-panel">
       <h2>遊戲規則</h2>
 
@@ -340,6 +347,45 @@ onUnmounted(() => {
   color: #888;
 }
 
+.dpad {
+  display: none;
+  grid-template-areas:
+    ".    up    ."
+    "left .     right"
+    ".    down  .";
+  grid-template-columns: repeat(3, 4rem);
+  grid-template-rows: repeat(3, 4rem);
+  gap: 0.25rem;
+  margin-top: 1rem;
+  touch-action: manipulation;
+}
+
+.dpad-btn {
+  width: 4rem;
+  height: 4rem;
+  border: none;
+  border-radius: 0.75rem;
+  background: #1a1a2e;
+  color: #fff;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.dpad-btn:active {
+  background: #16213e;
+}
+
+.dpad-btn.up    { grid-area: up; }
+.dpad-btn.left  { grid-area: left; }
+.dpad-btn.right { grid-area: right; }
+.dpad-btn.down  { grid-area: down; }
+
 .desktop-hint {
   display: inline;
 }
@@ -355,6 +401,10 @@ onUnmounted(() => {
 
   .touch-hint {
     display: inline;
+  }
+
+  .dpad {
+    display: grid;
   }
 }
 </style>
