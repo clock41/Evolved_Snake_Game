@@ -4,11 +4,25 @@ import { useGameStore, GRID_SIZE, type Direction } from './stores/game'
 
 const game = useGameStore()
 
+let lastTapTime = 0
+
 function onBoardClick() {
   if (game.isGameOver) {
     game.resetGame()
-  } else if (game.isPaused) {
+    return
+  }
+
+  if (game.isPaused) {
     game.togglePause()
+    return
+  }
+
+  const now = Date.now()
+  if (now - lastTapTime < 300) {
+    game.togglePause()
+    lastTapTime = 0
+  } else {
+    lastTapTime = now
   }
 }
 
@@ -60,11 +74,6 @@ onUnmounted(() => {
     <div class="game-header">
       <h1 class="game-title">🐍 貪吃蛇遊戲</h1>
       <span class="game-score">分數：{{ game.score }}</span>
-      <button
-        v-if="!game.isPaused && !game.isGameOver"
-        class="pause-btn"
-        @click.stop="game.togglePause()"
-      ></button>
     </div>
 
     <div class="board-wrapper" @click="onBoardClick">
@@ -132,7 +141,7 @@ onUnmounted(() => {
       <h3>🎮 操作</h3>
       <ul>
         <li>方向鍵 / WASD 控制方向</li>
-        <li><span class="desktop-hint">空白鍵</span><span class="touch-hint">點擊</span> 開始／暫停</li>
+        <li><span class="desktop-hint">空白鍵 開始／暫停</span><span class="touch-hint">點擊開始 / 雙擊畫面暫停</span></li>
       </ul>
 
       <h3>🐍 蛇</h3>
@@ -339,24 +348,6 @@ onUnmounted(() => {
   display: none;
 }
 
-.pause-btn {
-  display: none;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background-color: #ffffff;
-  background-image: url(/stop_button_picture.png);
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
-  border: 3px solid #ffffff;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-  cursor: pointer;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
 @media (hover: none) {
   .desktop-hint {
     display: none;
@@ -364,10 +355,6 @@ onUnmounted(() => {
 
   .touch-hint {
     display: inline;
-  }
-
-  .pause-btn {
-    display: flex;
   }
 }
 </style>
